@@ -1,13 +1,19 @@
 import streamlit as st
 import requests
 from urllib.parse import urlencode
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 
 # FastAPI server endpoint for exchanging `auth_code` with access token
-API_BASE_URL = "http://127.0.0.1:7000"
+API_BASE_URL = os.getenv("API_BASE_URL")
+LOGIN_URL=os.getenv("LOGIN_URL")
+SIGNUP_URL=os.getenv("SIGNUP_URL")
 
 st.write("Please log in to continue:")
-st.markdown(F'<a href="{API_BASE_URL}/auth/login" target="_self">Log In with Google</a>', unsafe_allow_html=True)
-st.markdown(F'<a href="{API_BASE_URL}/auth/signup" target="_self">Sign Up with Google</a>', unsafe_allow_html=True)
+st.markdown(F'<a href="{LOGIN_URL}" target="_self">Log In with Google</a>', unsafe_allow_html=True)
+st.markdown(F'<a href="{SIGNUP_URL}" target="_self">Sign Up with Google</a>', unsafe_allow_html=True)
 
 # Capture the access and refresh tokens from the URL query parameters
 query_params = st.experimental_get_query_params()
