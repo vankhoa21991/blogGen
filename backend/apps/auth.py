@@ -69,11 +69,12 @@ async def auth(request: Request):
         refresh_token = create_refresh_token(user_data['email'])
 
         # Redirect to Streamlit with the tokens in query parameters
-        redirect_url = f"{FRONTEND_URL}/?access_token={access_token}&refresh_token={refresh_token}"
-        return RedirectResponse(url=redirect_url)
-
-    # If email is not valid, raise a credentials exception
-    raise CREDENTIALS_EXCEPTION
+        redirect_url = f"{FRONTEND_URL}/?" + get_response(access_token, refresh_token, user_data['name'])
+    else:
+        # If email is not valid, redirect to the signup page with the email in query parameters
+        redirect_url = f"{FRONTEND_URL}/?state=signup&email={user_data['email']}&name={user_data['name']}"
+    return RedirectResponse(url=redirect_url)
+    
 
 @auth_app.get('/add')
 async def add(request: Request):
@@ -85,21 +86,24 @@ async def add(request: Request):
     user_data = await oauth.google.parse_id_token(request, token)
     if valid_email_from_db(user_data['email']):
         print('Email already in db')
-        # Create access and refresh tokens for the user
-        access_token = create_token(user_data['email'])
-        refresh_token = create_refresh_token(user_data['email'])
+        # # Create access and refresh tokens for the user
+        # access_token = create_token(user_data['email'])
+        # refresh_token = create_refresh_token(user_data['email'])
 
-        # Redirect to Streamlit with the tokens in query parameters
-        redirect_url = f"{FRONTEND_URL}/?access_token={access_token}&refresh_token={refresh_token}"
-        return RedirectResponse(url=redirect_url)
+        # # Redirect to Streamlit with the tokens in query parameters
+        # redirect_url = f"{FRONTEND_URL}/?" + get_response(access_token, refresh_token, user_data['name'])
+        # return RedirectResponse(url=redirect_url)
     else:
         print('Adding email to db')
         add_email_to_db(user_data['email'], user_data['name'])
-        access_token = create_token(user_data['email'])
-        refresh_token = create_refresh_token(user_data['email'])
-        redirect_url = f"{FRONTEND_URL}/?access_token={access_token}&refresh_token={refresh_token}"
-        return RedirectResponse(url=redirect_url)
 
+    access_token = create_token(user_data['email'])
+    refresh_token = create_refresh_token(user_data['email'])
+    redirect_url = f"{FRONTEND_URL}/?" + get_response(access_token, refresh_token, user_data['name'])
+    return RedirectResponse(url=redirect_url)
+
+def get_response(access_token, refresh_token, name, **kwargs):
+    return f'access_token={access_token}&refresh_token={refresh_token}&name={name}'
 
 @auth_app.post('/refresh')
 async def refresh(request: Request):

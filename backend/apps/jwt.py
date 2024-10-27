@@ -9,8 +9,12 @@ from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import status
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
+from database.database import SessionLocal, get_db
+from database.schemas import UserResponse, UserCreate, UserUpdate
+from database.crud import create_user, get_users
 
-from apps.db import is_token_blacklisted
+# from apps.db import is_token_blacklisted
 
 # Create a fake db:
 FAKE_DB = {'vankhoa21991@gmail.com': {'name': 'Guillermo Paoletti'}}
@@ -71,26 +75,38 @@ def create_token(email):
 
 
 def valid_email_from_db(email):
-    # database.json is a dictionary with emails as keys
-    with open('database.json', 'r') as file:
-        data = json.load(file)
-    return email in data.keys()
+    db_session = next(get_db())
+    
+    try:
+        users = get_users(db=db_session)  # Fetch users from the database
+        for user in users:
+            if user.email == email:
+                return True
+    finally:
+        db_session.close()  # Make sure to close the session
+
+    return False
+
+
+def create_user_route(user: UserCreate, db: Session = Depends(get_db)):
+    return create_user(db=db, user=user)
 
 def add_email_to_db(email, name):
-    with open('database.json', 'r') as file:
-        data = json.load(file)
-    data[email] = {'name': name}
-    with open('database.json', 'w') as f:
-        json.dump(data, f)
-
+    print('Adding email to db')
+    user = UserCreate(name=name, email=email)
+    db = next(get_db())
+    try:
+        create_user(db, user)
+    finally:
+        db.close()
 
 def decode_token(token):
     return jwt.decode(token, API_SECRET_KEY, algorithms=[API_ALGORITHM])
 
 
 async def get_current_user_email(token: str = Depends(oauth2_scheme)):
-    if is_token_blacklisted(token):
-        raise CREDENTIALS_EXCEPTION
+    # if is_token_blacklisted(token):
+    #     raise CREDENTIALS_EXCEPTION
     try:
         payload = decode_token(token)
         email: str = payload.get('sub')
