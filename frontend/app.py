@@ -5,10 +5,15 @@ import os
 
 load_dotenv()
 
-API_BASE_URL = os.getenv("API_BASE_URL")
-LOGIN_URL = os.getenv("LOGIN_URL")
-SIGNUP_URL = os.getenv("SIGNUP_URL")
+API_BASE_URL = os.getenv("BACKEND_URL")
 FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+LOGIN_URL = API_BASE_URL + "/auth/login"
+SIGNUP_URL = API_BASE_URL + "/auth/signup"
+
+# LOGIN_URL = os.getenv("LOGIN_URL")
+# SIGNUP_URL = os.getenv("SIGNUP_URL")
+
 
 # Custom CSS for the navigation bar and buttons
 st.markdown("""
@@ -106,7 +111,7 @@ if st.session_state["jwt"] is not None:
     
     if recent_posts.status_code == 200:
         posts = recent_posts.json()
-        for post in posts:
+        for post in posts[::-1]:
             st.write(f"**{post['user_name']}** at {post['created_at']}")
             st.write(post["content"])
             st.write("---")  # Divider between posts
@@ -124,26 +129,27 @@ if st.session_state["jwt"] is not None:
                                  json={"content": content})
         if response.status_code == 200:
             st.success("Post submitted successfully!")
+            st.rerun()
         else:
             st.error("Failed to submit post.")
 
 
-# Button to call unprotected API
-if st.button("Call Unprotected API"):
-    response = requests.get(f"{API_BASE_URL}/api/")
-    st.write("Response:", response.json())
+# # Button to call unprotected API
+# if st.button("Call Unprotected API"):
+#     response = requests.get(f"{API_BASE_URL}/api/")
+#     st.write("Response:", response.json())
 
-# Button to call protected API without JWT
-if st.button("Call Protected API without JWT"):
-    response = requests.get(f"{API_BASE_URL}/api/protected")
-    st.write("Response:", response.json())
+# # Button to call protected API without JWT
+# if st.button("Call Protected API without JWT"):
+#     response = requests.get(f"{API_BASE_URL}/api/protected")
+#     st.write("Response:", response.json())
 
-# Button to call protected API with JWT
-if st.button("Call Protected API with JWT"):
-    headers = {"Authorization": f"Bearer {st.session_state['jwt']}"}
-    print(headers)
-    response = requests.get(f"{API_BASE_URL}/api/protected", headers=headers)
-    st.write("Response:", response.json())
+# # Button to call protected API with JWT
+# if st.button("Call Protected API with JWT"):
+#     headers = {"Authorization": f"Bearer {st.session_state['jwt']}"}
+#     print(headers)
+#     response = requests.get(f"{API_BASE_URL}/api/protected", headers=headers)
+#     st.write("Response:", response.json())
 
 # add a button to show all users
 # if st.button("Show all users"):

@@ -39,8 +39,9 @@ auth_app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 # Frontend URL:
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
-REDIRECT_LOGIN_URL = os.environ.get('REDIRECT_LOGIN_URL') 
-REDIRECT_SIGNUP_URL = os.environ.get('REDIRECT_SIGNUP_URL')
+BACKEND_URL = os.environ.get('BACKEND_URL')
+REDIRECT_LOGIN_URL = BACKEND_URL+'/auth/auth' #os.environ.get('REDIRECT_LOGIN_URL') 
+REDIRECT_SIGNUP_URL = BACKEND_URL + '/auth/add' #os.environ.get('REDIRECT_SIGNUP_URL')
 
 @auth_app.route('/login')
 async def login(request: Request):

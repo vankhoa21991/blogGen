@@ -1,0 +1,4 @@
+image:
+  repository: loup21991/summarizer
+  tag: 'latest'
+  pullPolicy: Always

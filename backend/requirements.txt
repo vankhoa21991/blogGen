@@ -2,7 +2,7 @@ Authlib==0.15.3
 certifi==2020.12.5
 cffi==1.14.5
 click==7.1.2
-cryptography==3.4.7
+cryptography
 fastapi==0.63.0
 h11==0.12.0
 httpcore==0.12.3
@@ -19,7 +19,8 @@ starlette==0.13.6
 typing-extensions==3.7.4.3
 uvicorn==0.13.4
 python-dotenv
-streamlit
 SQLAlchemy
 email-validator
 psycopg2-binary
+cloud-sql-python-connector==1.2.4
+pg8000==1.29.6
