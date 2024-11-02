@@ -1,6 +1,6 @@
 apiVersion: v1                                             # chart API version
-name: summarizer                          # the name of the chart 
-description: My Helm Chart for summarizer    # single sentence to describe the project
+name: bloggen                         # the name of the chart 
+description: My Helm Chart for bloggen    # single sentence to describe the project
 
 # A chart can be `application` or `library`,
 # we don't use `library` so often
@@ -14,5 +14,5 @@ version: 0.0.1
 appVersion: "0.0.1"
 
 maintainers:
-- email: levankhoa21991@gmail.com
+- email: vankhoa21991@gmail.com
   name: levankhoa

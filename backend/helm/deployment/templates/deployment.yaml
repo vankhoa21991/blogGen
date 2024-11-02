@@ -20,9 +20,22 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 30000
+            - containerPort: 7000
           resources:
             requests:
               memory: "3Gi"
             limits:
               memory: "3Gi"
+          env:
+            - name: INSTANCE_CONNECTION_NAME
+              value: "moodmap-440120:europe-southwest1:moodmap"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASS
+              value: "wolfyhappy10"
+            - name: DB_NAME
+              value: "test"
+            - name: PRIVATE_IP
+              value: "False"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/app/moodmap-440120-af326191aa2e.json"

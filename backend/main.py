@@ -10,5 +10,10 @@ app = FastAPI()
 app.mount('/auth', auth_app)
 app.mount('/api', api_app)
 
+# health check
+@app.get('/')
+def health_check():
+    return {'status': 'ok'}
+
 if __name__ == '__main__':
     uvicorn.run(app, port=7000)

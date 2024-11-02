@@ -16,10 +16,6 @@ from database.crud import create_user, get_users
 
 # from apps.db import is_token_blacklisted
 
-# Create a fake db:
-FAKE_DB = {'vankhoa21991@gmail.com': {'name': 'Guillermo Paoletti'}}
-
-
 # Helper to read numbers using var envs
 def cast_to_number(id):
     temp = os.environ.get(id)
@@ -32,7 +28,7 @@ def cast_to_number(id):
 
 
 # Configuration
-API_SECRET_KEY = os.environ.get('API_SECRET_KEY') or None
+API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 if API_SECRET_KEY is None:
     raise BaseException('Missing API_SECRET_KEY env var.')
 API_ALGORITHM = os.environ.get('API_ALGORITHM') or 'HS256'

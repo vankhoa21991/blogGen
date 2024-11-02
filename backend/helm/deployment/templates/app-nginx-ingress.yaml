@@ -12,7 +12,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: 34.34.126.61.nip.io
+  - host: 34.91.188.26.nip.io
     http:
       paths:
       - path: /docs
@@ -21,18 +21,18 @@ spec:
           service:
             name: {{ .Release.Name }}
             port:
-              number: 30000
+              number: 7000
       - path: /openapi.json
         pathType: Prefix
         backend:
           service:
             name: {{ .Release.Name }}
             port:
-              number: 30000
-      - path: /summarize
+              number: 7000
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: {{ .Release.Name }}
             port:
-              number: 30000
+              number: 7000

@@ -1,4 +1,4 @@
 image:
-  repository: loup21991/summarizer
+  repository: loup21991/bloggen
   tag: 'latest'
   pullPolicy: Always
