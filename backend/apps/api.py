@@ -3,14 +3,12 @@ from fastapi import FastAPI
 from database.database import engine
 import database.models as models
 from database.router_user import router as user_router
-from database.router_post import router as post_router
 from apps.jwt import get_current_user_email
 
 models.Base.metadata.create_all(bind=engine)
 
 api_app = FastAPI()
 api_app.include_router(router=user_router)
-api_app.include_router(router=post_router)
 
 @api_app.get('/')
 def test():

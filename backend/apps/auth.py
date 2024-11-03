@@ -87,13 +87,6 @@ async def add(request: Request):
     user_data = await oauth.google.parse_id_token(request, token)
     if valid_email_from_db(user_data['email']):
         print('Email already in db')
-        # # Create access and refresh tokens for the user
-        # access_token = create_token(user_data['email'])
-        # refresh_token = create_refresh_token(user_data['email'])
-
-        # # Redirect to Streamlit with the tokens in query parameters
-        # redirect_url = f"{FRONTEND_URL}/?" + get_response(access_token, refresh_token, user_data['name'])
-        # return RedirectResponse(url=redirect_url)
     else:
         print('Adding email to db')
         add_email_to_db(user_data['email'], user_data['name'])

@@ -20,23 +20,3 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
-
-class PostBase(BaseModel):
-    user_id: int
-    user_name: str
-    user_email: EmailStr
-    content: str
-    created_at: datetime
-
-class PostCreate(BaseModel):
-    content: str
-
-class PostUpdate(PostBase):
-    pass
-
-class PostResponse(PostBase):
-    id: int
-    created_at: datetime
-    
-    class Config:
-        orm_mode = True

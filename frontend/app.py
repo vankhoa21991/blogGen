@@ -100,56 +100,23 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Main content
 st.title("Welcome to My Blogging Application!")
 
-# User Dashboard if logged in
-if st.session_state["jwt"] is not None:
-    st.subheader("User Dashboard")
 
-    # Fetch and display the three most recent posts
-    st.write("**Recent Posts:**")
+# Button to call unprotected API
+if st.button("Call Unprotected API"):
+    response = requests.get(f"{API_BASE_URL}/api/")
+    st.write("Response:", response.json())
+
+# Button to call protected API without JWT
+if st.button("Call Protected API without JWT"):
+    response = requests.get(f"{API_BASE_URL}/api/protected")
+    st.write("Response:", response.json())
+
+# Button to call protected API with JWT
+if st.button("Call Protected API with JWT"):
     headers = {"Authorization": f"Bearer {st.session_state['jwt']}"}
-    recent_posts = requests.get(f"{API_BASE_URL}/api/posts/recent", headers=headers)
-    
-    if recent_posts.status_code == 200:
-        posts = recent_posts.json()
-        for post in posts[::-1]:
-            st.write(f"**{post['user_name']}** at {post['created_at']}")
-            st.write(post["content"])
-            st.write("---")  # Divider between posts
-    else:
-        st.error("Failed to load recent posts.")
-
-
-    st.write("Add a new post below:")
-    
-    content = st.text_area("Content")
-    
-    if st.button("Submit"):
-        headers = {"Authorization": f"Bearer {st.session_state['jwt']}"}
-        response = requests.post(f"{API_BASE_URL}/api/post", headers=headers, 
-                                 json={"content": content})
-        if response.status_code == 200:
-            st.success("Post submitted successfully!")
-            st.rerun()
-        else:
-            st.error("Failed to submit post.")
-
-
-# # Button to call unprotected API
-# if st.button("Call Unprotected API"):
-#     response = requests.get(f"{API_BASE_URL}/api/")
-#     st.write("Response:", response.json())
-
-# # Button to call protected API without JWT
-# if st.button("Call Protected API without JWT"):
-#     response = requests.get(f"{API_BASE_URL}/api/protected")
-#     st.write("Response:", response.json())
-
-# # Button to call protected API with JWT
-# if st.button("Call Protected API with JWT"):
-#     headers = {"Authorization": f"Bearer {st.session_state['jwt']}"}
-#     print(headers)
-#     response = requests.get(f"{API_BASE_URL}/api/protected", headers=headers)
-#     st.write("Response:", response.json())
+    print(headers)
+    response = requests.get(f"{API_BASE_URL}/api/protected", headers=headers)
+    st.write("Response:", response.json())
 
 # add a button to show all users
 # if st.button("Show all users"):

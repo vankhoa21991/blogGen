@@ -45,7 +45,6 @@ CREDENTIALS_EXCEPTION = HTTPException(
     headers={'WWW-Authenticate': 'Bearer'},
 )
 
-
 # Create token internal function
 def create_access_token(*, data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()

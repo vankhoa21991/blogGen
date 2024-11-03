@@ -8,11 +8,3 @@ class UserModel(Base):
     name = Column(String, index=True)
     email = Column(String, index=True)
 
-class PostModel(Base):
-    __tablename__ = "post"
-    id = Column(Integer, primary_key=True, index=True)
-    content = Column(String, index=True)
-    created_at = Column(DateTime(timezone=True), default=func.now(), index=True)
-    user_name = Column(String, index=True)
-    user_email = Column(String, index=True)
-    user_id = Column(Integer, index=True)

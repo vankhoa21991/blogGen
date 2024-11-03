@@ -9,14 +9,14 @@ docker push loup21991/bloggen-front:latest
 docker push eu.gcr.io/moodmap-440120/bloggen-front:latest
 
 
-
-
 # Tutorial
 
 1. build app in local, use docker-compose to run the app, DB in local
 
+sudo docker compose down
 docker compose -f docker-compose.yml up -d
 docker compose -f docker-compose.yml logs -f
+sudo docker compose logs -f backend
 
 2. create DB in GCP, download credentials, use backend in local, DB in GCP
 
@@ -33,7 +33,7 @@ docker push loup21991/bloggen:latest
 kubectl get svc -n nginx-ingress
 kubectl get pods
 kubectl describe pod bloggen-748f9df6cf-dzjcp
-kubectl logs bloggen-77987bf7cc-cc5jv
+kubectl logs bloggen-77987bf7cc-b279x
 kubectl get svc -n nginx-ingress
 http://34.91.188.26.nip.io/docs#/
 

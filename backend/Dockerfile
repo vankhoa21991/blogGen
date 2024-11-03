@@ -17,9 +17,6 @@ COPY *.json /app/
 
 RUN export $(cat /app/.env | xargs)
 
-ENV FRONTEND_URL='https://bloggen-front-474924334872.europe-west1.run.app'
-ENV BACKEND_URL='http://34.91.188.26.nip.io'
-
 EXPOSE 7000
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7000"]
