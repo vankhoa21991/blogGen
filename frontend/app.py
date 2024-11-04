@@ -8,11 +8,11 @@ load_dotenv()
 API_BASE_URL = os.getenv("BACKEND_URL")
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
-LOGIN_URL = API_BASE_URL + "/auth/login"
-SIGNUP_URL = API_BASE_URL + "/auth/signup"
+# LOGIN_URL = API_BASE_URL + "/auth/login"
+# SIGNUP_URL = API_BASE_URL + "/auth/signup"
 
-# LOGIN_URL = os.getenv("LOGIN_URL")
-# SIGNUP_URL = os.getenv("SIGNUP_URL")
+LOGIN_URL = os.getenv("LOGIN_URL")
+SIGNUP_URL = os.getenv("SIGNUP_URL")
 
 
 # Custom CSS for the navigation bar and buttons
